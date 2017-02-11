@@ -84,8 +84,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
             blendFactorSource : String = null, blendFactorDest : String = null)
     {
         super();
-		trace("texture.height : " + texture.height);
-		trace("texture.width : " + texture.width);
         if (texture == null)
         {
             throw new ArgumentError("texture must not be null");
@@ -108,7 +106,7 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         
         createProgram();
         updatePremultipliedAlpha();
-        raiseCapacity(initialCapacity);
+		raiseCapacity(initialCapacity);
         
         // handle a lost device context
         Starling.current.stage3D.addEventListener(Event.CONTEXT3D_CREATE, 
@@ -165,7 +163,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
     
     private function initParticle(particle : Particle) : Void
     {
-		trace("init particle");
         particle.x = mEmitterX;
         particle.y = mEmitterY;
         particle.currentTime = 0;
@@ -201,7 +198,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         
         //mParticles.fixed = false;
         //mIndices.fixed = false;
-        
         for (i in oldCapacity...newCapacity)
         {
             var numVertices : Int = Std.int(i * 4);
@@ -255,8 +251,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
     /** Starts the emitter for a certain time. @default infinite time */
     public function start(duration : Float = 99999999) : Void
     {
-		trace("start");
-		trace("mEmissionRate : " + mEmissionRate);
         if (mEmissionRate != 0)
         {
             mEmissionTime = duration;
@@ -289,7 +283,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         {
             resultRect = new Rectangle();
         }
-        trace("targetSpace : " + targetSpace);
         getTransformationMatrix(targetSpace, sHelperMatrix);
         MatrixUtil.transformCoords(sHelperMatrix, 0, 0, sHelperPoint);
         
@@ -302,8 +295,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
     
     public function advanceTime(passedTime : Float) : Void
     {
-		trace("particle advance time");
-		trace("mNumParticles : " + mNumParticles);
         var particleIndex : Int = 0;
         var particle : Particle;
         this.get_bounds();
@@ -433,8 +424,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
     
     override public function render(support : RenderSupport, alpha : Float) : Void
     {
-		trace("render");
-		trace("mNumParticles : " + mNumParticles);
         if (mNumParticles == 0)
         {
             return;
@@ -442,8 +431,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         
         // always call this method when you write custom rendering code!
         // it causes all previously batched quads/images to render.
-		trace("support : " + support);
-		trace("support : " + support.drawCount);
         support.finishQuadBatch();
         
         // make this call to keep the statistics display in sync.
@@ -454,7 +441,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         //}
         
         alpha *= this.alpha;
-		trace("alpha : " + alpha);
         
         var context : Context3D = Starling.current.context;
         var pma : Bool = texture.premultipliedAlpha;
@@ -469,10 +455,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         mVertexBuffer.uploadFromVector(mVertexData.rawData, 0, mNumParticles * 4);
         mIndexBuffer.uploadFromVector(mIndices, 0, mNumParticles * 6);
        
-		trace("mBlendFactorSource : " + mBlendFactorSource);
-		trace("mBlendFactorDestination : " + mBlendFactorDestination);
-		trace("context : " + context);
-		trace("mTexture.base : " + mTexture.base);
         context.setBlendFactors(mBlendFactorSource, mBlendFactorDestination);
         context.setTextureAt(0, mTexture.base);
         
@@ -511,7 +493,6 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         }
         
         mNumParticles += count;
-		trace("mNumParticles : " + mNumParticles);
     }
     
     // program management
@@ -522,20 +503,12 @@ class ParticleSystem extends DisplayObject implements IAnimatable
         var mipmap : Bool = mTexture.mipMapping;
         var textureFormat : String = mTexture.format;
         var programName : String = "ext.ParticleSystem." + textureFormat + "/" +mSmoothing.charAt(0) + ((mipmap) ? "+mm" : "");
-		trace(mSmoothing);
         
         mProgram = Starling.current.getProgram(programName);
-        trace("mProgram : " + mProgram);
         if (mProgram == null)
         {
             var textureOptions : String = RenderSupport.getTextureLookupFlags(textureFormat, mipmap, false, mSmoothing);
             
-			trace("textureOptions : " + textureOptions);
-			
-            //var vertexProgramCode : String = "m44 op, va0, vc0 \n" + "mul v0, va1, vc4 \n" + "mov v1, va2";
-            
-            //var fragmentProgramCode : String = "tex ft1, v1, fs0 " + textureOptions + "\n" +  "mul oc, ft1, v0";  // multiply color with texel color  
-			
 			var vertexProgramCode:String =
                     "m44 op, va0, vc0 \n" + // 4x4 matrix transform to output clipspace
                     "mul v0, va1, vc4 \n" + // multiply color with alpha and pass to fragment program
@@ -547,13 +520,8 @@ class ParticleSystem extends DisplayObject implements IAnimatable
                 
             
             var assembler : AGALMiniAssembler = new AGALMiniAssembler();
-            trace("programName : " + programName);
-			trace("Context3DProgramType.VERTEX : " + Context3DProgramType.VERTEX);
-			trace("vertexProgramCode : " + vertexProgramCode);
-			trace("fragmentProgramCode : " + fragmentProgramCode);
             Starling.current.registerProgram(programName, assembler.assemble(Context3DProgramType.VERTEX, vertexProgramCode), assembler.assemble(Context3DProgramType.FRAGMENT, fragmentProgramCode));
             mProgram = Starling.current.getProgram(programName);
-			trace("mProgram : " + mProgram);
         }
     }
     

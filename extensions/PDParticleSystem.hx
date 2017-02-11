@@ -102,7 +102,6 @@ class PDParticleSystem extends ParticleSystem
     
     public function new(config : Xml, texture : Texture)
     {
-		trace("///// instanciate particle");
         parseConfig(config);
         
         var emissionRate : Float = mMaxNumParticles / mLifespan;
@@ -294,7 +293,6 @@ class PDParticleSystem extends ParticleSystem
     private function parseConfig(config : Xml) : Void
     {
 		
-		trace("parse config xml");
 		
 		var fastXml:Fast = new Fast(config);
 		
@@ -337,15 +335,15 @@ class PDParticleSystem extends ParticleSystem
         mBlendFactorSource = getBlendFunc(fastXml.nodes.resolve("blendFuncSource").first().att.value);
         mBlendFactorDestination = getBlendFunc(fastXml.nodes.resolve("blendFuncDestination").first().att.value);
 		
-		trace("mStartSize : " + mStartSize);
-		trace("mEndSize : " + mEndSize);
-		trace("mBlendFactorSource : " + mBlendFactorSource);
-		trace("mBlendFactorDestination : " + mBlendFactorDestination);
-		trace("mStartColor : " + mStartColor);
-		trace("mEmitterType : " + mEmitterType);
-		trace("mMaxNumParticles : " + mMaxNumParticles);
-		trace("mLifespan : " + mLifespan);
-		trace("mEmitAngle : " + mEmitAngle);
+		//trace("mStartSize : " + mStartSize);
+		//trace("mEndSize : " + mEndSize);
+		//trace("mBlendFactorSource : " + mBlendFactorSource);
+		//trace("mBlendFactorDestination : " + mBlendFactorDestination);
+		//trace("mStartColor : " + mStartColor);
+		//trace("mEmitterType : " + mEmitterType);
+		//trace("mMaxNumParticles : " + mMaxNumParticles);
+		//trace("mLifespan : " + mLifespan);
+		//trace("mEmitAngle : " + mEmitAngle);
 		
         if (Math.isNaN(mEndSizeVariance))
         {
@@ -389,10 +387,6 @@ class PDParticleSystem extends ParticleSystem
 		color.green = Std.parseFloat(element.att.green);
 		color.blue  = Std.parseFloat(element.att.blue);
 		color.alpha = Std.parseFloat(element.att.alpha);
-		trace("color.red : " + color.red);
-		trace("color.green : " + color.green);
-		trace("color.blue : " + color.blue);
-		trace("color.alpha : " + color.alpha);
 		return color;
 	}
     
