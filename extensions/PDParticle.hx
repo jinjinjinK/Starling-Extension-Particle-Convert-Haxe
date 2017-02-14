@@ -8,21 +8,24 @@
 //
 // =================================================================================================
 
-package extensions;
-
+package starling.extensions;
 
 class PDParticle extends Particle
 {
-    public var colorArgb : ColorArgb;
-    public var colorArgbDelta : ColorArgb;
-    public var startX : Float;public var startY : Float;
-    public var velocityX : Float;public var velocityY : Float;
-    public var radialAcceleration : Float;
-    public var tangentialAcceleration : Float;
-    public var emitRadius : Float;public var emitRadiusDelta : Float;
-    public var emitRotation : Float;public var emitRotationDelta : Float;
-    public var rotationDelta : Float;
-    public var scaleDelta : Float;
+    public var colorArgb:ColorArgb;
+    public var colorArgbDelta:ColorArgb;
+    public var startX:Float;
+    public var startY:Float;
+    public var velocityX:Float;
+    public var velocityY:Float;
+    public var radialAcceleration:Float;
+    public var tangentialAcceleration:Float;
+    public var emitRadius:Float;
+    public var emitRadiusDelta:Float;
+    public var emitRotation:Float;
+    public var emitRotationDelta:Float;
+    public var rotationDelta:Float;
+    public var scaleDelta:Float;
     
     public function new()
     {

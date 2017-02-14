@@ -8,19 +8,18 @@
 //
 // =================================================================================================
 
-package extensions;
-
+package starling.extensions;
 
 class Particle
 {
-    public var x : Float;
-    public var y : Float;
-    public var scale : Float;
-    public var rotation : Float;
-    public var color : Int;
-    public var alpha : Float;
-    public var currentTime : Float;
-    public var totalTime : Float;
+    public var x:Float;
+    public var y:Float;
+    public var scale:Float;
+    public var rotation:Float;
+    public var color:Int;
+    public var alpha:Float;
+    public var currentTime:Float;
+    public var totalTime:Float;
     
     public function new()
     {
